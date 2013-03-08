@@ -2,6 +2,7 @@ class fedora::params {
   $fedora_base          = '/usr/share'
   $fedora_home          = '/usr/share/fedora'
   $user                 = 'tomcat'
+  $version              = 'latest'
   $fedora_admin_pass    = 'fedoraAdmin'
   $group                = 'tomcat'
   $tomcat_http_port     = '8080'
@@ -12,7 +13,7 @@ class fedora::params {
   $ri_enabled           = 'true'
   $tomcat_home          = '/usr/share/tomcat'
   $server_host          = fqdn
-
+ 
   if $::osfamily == 'redhat' or $::operatingsystem == 'amazon' {
     $packages = ['tomcat']
   }

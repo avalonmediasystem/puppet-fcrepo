@@ -2,6 +2,7 @@ class fedora(
   $fedora_base          = $fedora::params::fedora_base,
   $fedora_home          = $fedora::params::fedora_home,
   $user                 = $fedora::params::user,
+  $version              = $fedora::params::version,
   $fedora_admin_pass    = $fedora::params::fedora_admin_pass,
   $group                = $fedora::params::group,
   $tomcat_http_port     = $fedora::params::tomcat_http_port,
@@ -16,8 +17,14 @@ class fedora(
 
   include fedora::config
 
+  if $version == 'latest' {
+    $download_url = "http://sourceforge.net/projects/fedora-commons/files/latest/download"
+  } else {
+    $download_url = "http://downloads.sourceforge.net/fedora-commons/fcrepo-installer-#{version}.jar"
+  }
+
   staging::file { 'fcrepo-installer.jar':
-    source  => 'http://downloads.sourceforge.net/fedora-commons/fcrepo-installer-3.6.1.jar',
+    source  => $download_url,
     timeout => 1200,
     subdir  => 'fedora'
   }
@@ -59,7 +66,8 @@ class fedora(
     group       => $group,
     path        => ['/bin', '/usr', '/usr/bin'],
     require     => [Concat::Fragment['fedora-defaults'], Staging::File['fcrepo-installer.jar'],
-      File["${tomcat_home}/conf/Catalina/${server_host}"]]
+      File["${tomcat_home}/conf/Catalina/${server_host}"]],
+    notify      => [File["${fedora_home}/server/status"], Concat::Fragment['fedora-tomcat-config'], Service['fedora-tomcat']]
   }
  
   file { [$fedora_home, "${fedora_home}/server/logs", "${fedora_home}/server/fedora-internal-use", 
@@ -79,7 +87,7 @@ class fedora(
     require => Package['tomcat']
   }
 
-  file {  ["${fedora_home}/server/status"]:
+  file { "${fedora_home}/server/status":
     ensure  => present,
     owner   => $user,
     group   => $group,
@@ -89,12 +97,20 @@ class fedora(
   }
 
   concat { "/etc/sysconfig/tomcat":
-    require => Package['tomcat']
+    require => [Package['tomcat'], Exec['install-fedora']]
   }  
   
-  concat::fragment { 'fedora':
+  concat::fragment { 'fedora-tomcat-config':
     target => "/etc/sysconfig/tomcat",
-    content => "FEDORA_HOME='${fedora_home}'\n"
+    content => "FEDORA_HOME='${fedora_home}'\n",
+    require => Exec['install-fedora']
+  }
+
+  service { 'fedora-tomcat':
+    name       => 'tomcat',
+    ensure     => running,
+    enable     => true,
+    hasrestart => true
   }
  
 }
