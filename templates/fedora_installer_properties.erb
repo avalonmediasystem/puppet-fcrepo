@@ -1,0 +1,23 @@
+apia.auth.required=false
+apia.ssl.required=false
+apim.ssl.required=false
+deploy.local.services=false
+fedora.admin.pass=<%= fedora_admin_pass %>
+fedora.home=<%= fedora_home %>
+fedora.serverContext=<%= fedora_context %>
+fedora.serverHost=<%= server_host %>
+fesl.authn.enabled=true
+fesl.authz.enabled=false
+install.tomcat=false
+install.type=custom
+keystore.file=included
+messaging.enabled=<%= messaging_enabled %>
+messaging.uri=<%= messaging_uri.gsub(':', '\:') %>
+ri.enabled=<%= ri_enabled %>
+servlet.engine=existingTomcat
+ssl.available=<%= ssl_available %>
+tomcat.home=<%= tomcat_home %>
+tomcat.http.port=<%= tomcat_http_port %>
+tomcat.shutdown.port=<%= tomcat_shutdown_port %>
+tomcat.ssl.port=<%= tomcat_https_port %>
+xacml.enabled=false
