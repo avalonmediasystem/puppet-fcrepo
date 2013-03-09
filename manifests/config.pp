@@ -1,20 +1,21 @@
 class fedora::config(
-  $fedora_base          = '/usr/share',
-  $fedora_home          = '/usr/share/fedora',
-  $user                 = 'tomcat',
-  $version              = 'latest',
-  $fedora_admin_pass    = 'fedoraAdmin',
-  $group                = 'tomcat',
-  $java_version         = '1.7.0',
-  $tomcat_http_port     = '8080',
-  $tomcat_https_port    = '8443',
-  $tomcat_shutdown_port = '8005',
-  $fedora_context       = 'fedora',
-  $messaging_uri        = '',
-  $ri_enabled           = 'true',
-  $tomcat_home          = '',
-  $server_host          = fqdn
-) {
+  $fedora_base          = $fedora::params::fedora_base,
+  $fedora_home          = $fedora::params::fedora_home,
+  $user                 = $fedora::params::user,
+  $version              = $fedora::params::version,
+  $fedora_admin_pass    = $fedora::params::fedora_admin_pass,
+  $group                = $fedora::params::group,
+  $java_version         = $fedora::params::java_version,
+  $tomcat_http_port     = $fedora::params::tomcat_http_port,
+  $tomcat_https_port    = $fedora::params::tomcat_https_port,
+  $tomcat_shutdown_port = $fedora::params::tomcat_shutdown_port,
+  $fedora_context       = $fedora::params::fedora_context,
+  $messaging_uri        = $fedora::params::messaging_uri,
+  $ri_enabled           = $fedora::params::ri_enabled,
+  $tomcat_home          = $fedora::params::tomcat_home,
+  $server_host          = $fedora::params::server_host,
+) inherits fedora::params {
+
 	include staging
  
   if $messaging_uri == '' {
