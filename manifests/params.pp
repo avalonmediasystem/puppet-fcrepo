@@ -14,8 +14,4 @@ class fedora::params {
   $ri_enabled           = 'true'
   $tomcat_home          = '/usr/share/tomcat'
   $server_host          = fqdn
- 
-  if $::osfamily == 'redhat' {
-    $packages = ['java-1.7.0-openjdk']
-  }
 }
