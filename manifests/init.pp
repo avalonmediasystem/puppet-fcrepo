@@ -1,5 +1,6 @@
 class fedora {
-
+  include concat::setup
+  
   if $config::version == 'latest' {
     $download_url = "http://sourceforge.net/projects/fedora-commons/files/latest/download"
   } else {
