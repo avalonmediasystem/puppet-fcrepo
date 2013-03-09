@@ -1,10 +1,8 @@
-class fedora::derby($fedora_home) {
-	include fedora::config
-
+class fedora::derby {
 	$database 		= 'included'
 	$driver   		= 'included'
 	$driver_class = 'org.apache.derby.jdbc.EmbeddedDriver'
-	$jdbc_url     = "jdbc:derby:${fedora_home}/derby/fedora3;create=true"
+	$jdbc_url     = "jdbc:derby:${config::fedora_home}/derby/fedora3;create=true"
 	$db_user      = "UNUSED"
 	$db_pass			= "ALSO_UNUSED"
 	
