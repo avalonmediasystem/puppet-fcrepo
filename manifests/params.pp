@@ -1,4 +1,4 @@
-class fedora::params {
+class fcrepo::params {
   $fedora_base          = '/usr/share'
   $fedora_home          = '/usr/share/fedora'
   $user                 = 'tomcat'

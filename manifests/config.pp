@@ -1,20 +1,20 @@
-class fedora::config(
-  $fedora_base          = $fedora::params::fedora_base,
-  $fedora_home          = $fedora::params::fedora_home,
-  $user                 = $fedora::params::user,
-  $version              = $fedora::params::version,
-  $fedora_admin_pass    = $fedora::params::fedora_admin_pass,
-  $group                = $fedora::params::group,
-  $java_version         = $fedora::params::java_version,
-  $tomcat_http_port     = $fedora::params::tomcat_http_port,
-  $tomcat_https_port    = $fedora::params::tomcat_https_port,
-  $tomcat_shutdown_port = $fedora::params::tomcat_shutdown_port,
-  $fedora_context       = $fedora::params::fedora_context,
-  $messaging_uri        = $fedora::params::messaging_uri,
-  $ri_enabled           = $fedora::params::ri_enabled,
-  $tomcat_home          = $fedora::params::tomcat_home,
-  $server_host          = $fedora::params::server_host,
-) inherits fedora::params {
+class fcrepo::config(
+  $fedora_base          = $fcrepo::params::fedora_base,
+  $fedora_home          = $fcrepo::params::fedora_home,
+  $user                 = $fcrepo::params::user,
+  $version              = $fcrepo::params::version,
+  $fedora_admin_pass    = $fcrepo::params::fedora_admin_pass,
+  $group                = $fcrepo::params::group,
+  $java_version         = $fcrepo::params::java_version,
+  $tomcat_http_port     = $fcrepo::params::tomcat_http_port,
+  $tomcat_https_port    = $fcrepo::params::tomcat_https_port,
+  $tomcat_shutdown_port = $fcrepo::params::tomcat_shutdown_port,
+  $fedora_context       = $fcrepo::params::fedora_context,
+  $messaging_uri        = $fcrepo::params::messaging_uri,
+  $ri_enabled           = $fcrepo::params::ri_enabled,
+  $tomcat_home          = $fcrepo::params::tomcat_home,
+  $server_host          = $fcrepo::params::server_host,
+) inherits fcrepo::params {
 
 	include staging
  
@@ -38,13 +38,13 @@ class fedora::config(
   } else {
   	$install_tomcat = 'false'
   	concat::fragment { 'fedora-tomcat-properties':
-  		content => template('fedora/fedora_tomcat_properties.erb'),
+  		content => template('fcrepo/fedora_tomcat_properties.erb'),
   		target => $propfile
   	}
   }
 
   concat::fragment { 'fedora-defaults':
-    content => template('fedora/fedora_installer_properties.erb'),
+    content => template('fcrepo/fedora_installer_properties.erb'),
     target  => $propfile
   }
 

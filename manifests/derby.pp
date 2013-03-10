@@ -1,4 +1,4 @@
-class fedora::derby {
+class fcrepo::derby {
 	$database 		= 'included'
 	$driver   		= 'included'
 	$driver_class = 'org.apache.derby.jdbc.EmbeddedDriver'
@@ -8,7 +8,7 @@ class fedora::derby {
 	
 	concat::fragment { "fedora-database":
 		ensure  => present,
-		content => template('fedora/fedora_db_properties.erb'),
-		target  => $fedora::config::propfile
+		content => template('fcrepo/fedora_db_properties.erb'),
+		target  => $fcrepo::config::propfile
 	}
 }

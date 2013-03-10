@@ -1,4 +1,4 @@
-class fedora {
+class fcrepo {
   include concat::setup
   
   if $config::version == 'latest' {
@@ -18,11 +18,11 @@ class fedora {
     owner  => $config::user,
     group  => $config::group,
     mode   => '0775',
-    require => Class['fedora::config']
+    require => Class['fcrepo::config']
   }
  
   exec { 'install-fedora':
-    command     => "java -jar /opt/staging/fedora/fcrepo-installer.jar ${fedora::config::propfile}",
+    command     => "java -jar /opt/staging/fedora/fcrepo-installer.jar ${fcrepo::config::propfile}",
     creates     => "${config::fedora_home}/server",
     environment => "FEDORA_HOME=${config::fedora_home}",
     timeout     => 1800,
