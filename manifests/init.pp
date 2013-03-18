@@ -30,7 +30,8 @@ class fcrepo {
     group       => $config::group,
     path        => ['/bin', '/usr', '/usr/bin'],
     require     => [Staging::File['fcrepo-installer.jar']],
-    notify      => [File["${config::fedora_home}/server/status"], Concat::Fragment['fedora-tomcat-config']]
+    notify      => File["${config::fedora_home}/server/status"], 
+    #Concat::Fragment['fedora-tomcat-config']]
   }
  
   file { [$config::fedora_home, "${config::fedora_home}/server/logs", "${config::fedora_home}/server/fedora-internal-use", 
@@ -51,13 +52,4 @@ class fcrepo {
     require => Exec['install-fedora']
   }
 
-  concat { "/etc/sysconfig/tomcat":
-    require => Exec['install-fedora']
-  }  
-  
-  concat::fragment { 'fedora-tomcat-config':
-    target => "/etc/sysconfig/tomcat",
-    content => "FEDORA_HOME='${config::fedora_home}'\n",
-    require => Exec['install-fedora']
-  }
 }
