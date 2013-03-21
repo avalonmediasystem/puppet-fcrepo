@@ -18,6 +18,10 @@ class fcrepo::config(
 
 	include staging
  
+  file { "${staging::path}/fcrepo":
+    ensure => directory
+  }
+
   if $messaging_uri == '' {
     $messaging_enabled = 'false'
   } else {
@@ -30,8 +34,10 @@ class fcrepo::config(
     $ssl_available = 'true'
   }
 
-	$propfile = "${staging::path}/fedora/installer.properties"
-  concat { $propfile: }
+	$propfile = "${staging::path}/fcrepo/installer.properties"
+  concat { $propfile: 
+    require => File["${staging::path}/fcrepo"]
+  }
 
   if $tomcat_home == '' {
 	  $install_tomcat = 'true'
