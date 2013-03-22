@@ -10,7 +10,7 @@ class fcrepo {
   staging::file { 'fcrepo-installer.jar':
     source  => $download_url,
     timeout => 1200,
-    subdir  => 'fedora'
+    subdir  => 'fcrepo'
   }
  
   file { $config::fedora_base:
@@ -22,7 +22,7 @@ class fcrepo {
   }
  
   exec { 'install-fedora':
-    command     => "java -jar /opt/staging/fedora/fcrepo-installer.jar ${fcrepo::config::propfile}",
+    command     => "/usr/bin/java -jar /opt/staging/fcrepo/fcrepo-installer.jar ${fcrepo::config::propfile}",
     creates     => "${config::fedora_home}/server",
     environment => "FEDORA_HOME=${config::fedora_home}",
     timeout     => 1800,
