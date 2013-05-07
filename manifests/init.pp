@@ -44,7 +44,7 @@ class fcrepo {
     group       => $config::group,
     path        => ['/bin', '/usr', '/usr/bin'],
     require     => [Staging::File['fcrepo-installer.jar']],
-    notify      => File["${config::fedora_home}/server/status"], 
+    notify      => [File["${config::fedora_home}/server/status"], Service["tomcat"]]
     #Concat::Fragment['fedora-tomcat-config']]
   }
  
