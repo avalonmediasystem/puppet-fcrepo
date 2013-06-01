@@ -14,6 +14,9 @@
 
 class fcrepo {
   include concat::setup
+  if defined(jdk) {
+    include jdk
+  }
   
   if $config::version == 'latest' {
     $download_url = "http://sourceforge.net/projects/fedora-commons/files/latest/download"
