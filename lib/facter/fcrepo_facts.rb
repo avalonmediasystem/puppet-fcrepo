@@ -14,48 +14,33 @@
 
 require 'etc'
 require 'rexml/document'
+require 'securerandom'
 
 def add_fedora_facts
-  doc = REXML::Document.new(File.read('/usr/local/fedora/server/config/fedora.fcfg'))
-  uri = REXML::XPath.match(doc,'/server/datastore[@id="localMySQLPool"]/param[@name="jdbcURL"]/@value').first.value
+  config = {
+    'user' => 'vagrant_fc_user',
+    'password' => SecureRandom.hex,
+    'host' => 'localhost',
+    'database' => 'fedora3'
+  }
 
-  Facter.add("fcrepo_mysql_user") do
-    setcode do
-      begin
-        REXML::XPath.match(doc,'/server/datastore[@id="localMySQLPool"]/param[@name="dbUsername"]/@value').first.value
-      rescue
-        'vagrant_fc_user'
-      end
+  begin
+    config_file = '/usr/local/fedora/server/config/fedora.fcfg'
+    if File.exists?(config_file)
+      doc = REXML::Document.new(File.read(config_file))
+      config['user'] = REXML::XPath.match(doc,'/server/datastore[@id="localMySQLPool"]/param[@name="dbUsername"]/@value').first.value
+      config['password'] = REXML::XPath.match(doc,'/server/datastore[@id="localMySQLPool"]/param[@name="dbPassword"]/@value').first.value
+
+      uri = REXML::XPath.match(doc,'/server/datastore[@id="localMySQLPool"]/param[@name="jdbcURL"]/@value').first.value
+      parts = uri.split(%r{[/?]})
+      config['host'] = parts[2]
+      config['database'] = parts[3]
     end
   end
 
-  Facter.add("fcrepo_mysql_password") do
-    setcode do
-      begin
-        REXML::XPath.match(doc,'/server/datastore[@id="localMySQLPool"]/param[@name="dbPassword"]/@value').first.value
-      rescue
-        'vagrant_fc_pwd'
-      end
-    end
-  end
-
-  Facter.add("fcrepo_mysql_host") do
-    setcode do
-      begin
-        uri.split(%r{[/?]})[2]
-      rescue
-        'localhost'
-      end
-    end
-  end
-
-  Facter.add("fcrepo_mysql_database") do
-    setcode do
-      begin
-        uri.split(%r{[/?]})[3]
-      rescue
-        'localhost'
-      end
+  config.each_pair do |key,value|
+    Facter.add("fcrepo_mysql_#{key}") do
+      setcode { value }
     end
   end
 end
