@@ -24,6 +24,10 @@ class fcrepo {
     $download_url = "http://downloads.sourceforge.net/fedora-commons/fcrepo-installer-#{version}.jar"
   }
 
+  File {
+    selinux_ignore_defaults => true
+  }
+
   staging::file { 'fcrepo-installer.jar':
     source  => $download_url,
     timeout => 1200,

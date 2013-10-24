@@ -16,8 +16,10 @@ class fcrepo::mysql {
   $database     = 'mysql'
   $driver       = 'included'
   $driver_class = 'com.mysql.jdbc.Driver'
-  $db_user      = 'vagrant_fc_user'
-  $db_pass      = 'vagrant_fc_pwd'
+  $db_host      = $fcrepo_mysql_host
+  $db_user      = $fcrepo_mysql_user
+  $db_pass      = $fcrepo_mysql_password
+  $db_database  = $fcrepo_mysql_database
   $jdbc_url     = 'jdbc:mysql://localhost/fedora3?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true'
 
   include mysql
@@ -25,10 +27,10 @@ class fcrepo::mysql {
   class { 'mysql::server':
     config_hash => { 'root_password' => 'vagrant_root_pwd' }
   }
-  mysql::db { 'fedora3':
-    user     => 'vagrant_fc_user',
-    password => 'vagrant_fc_pwd',
-    host     => 'localhost',
+  mysql::db { $db_database:
+    user     => $db_user,
+    password => $db_pass,
+    host     => $db_host,
     grant    => ['all'],
   }
   
