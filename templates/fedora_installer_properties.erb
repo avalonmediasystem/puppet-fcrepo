@@ -2,18 +2,18 @@ apia.auth.required=false
 apia.ssl.required=false
 apim.ssl.required=false
 deploy.local.services=false
-fedora.admin.pass=<%= fedora_admin_pass %>
-fedora.home=<%= fedora_home %>
-fedora.serverContext=<%= fedora_context %>
-fedora.serverHost=<%= server_host %>
+fedora.admin.pass=<%= @fedora_admin_pass %>
+fedora.home=<%= @fedora_home %>
+fedora.serverContext=<%= @fedora_context %>
+fedora.serverHost=<%= @server_host %>
 fesl.authn.enabled=true
 fesl.authz.enabled=false
-install.tomcat=<%= install_tomcat %>
+install.tomcat=<%= @install_tomcat %>
 install.type=custom
 keystore.file=included
-messaging.enabled=<%= messaging_enabled %>
-messaging.uri=<%= messaging_uri.gsub(':', '\:') %>
-ri.enabled=<%= ri_enabled %>
+messaging.enabled=<%= @messaging_enabled %>
+messaging.uri=<%= @messaging_uri.gsub(':', '\:') %>
+ri.enabled=<%= @ri_enabled %>
 servlet.engine=existingTomcat
-ssl.available=<%= ssl_available %>
+ssl.available=<%= @ssl_available %>
 xacml.enabled=false
