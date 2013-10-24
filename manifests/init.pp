@@ -13,7 +13,6 @@
 # ---  END LICENSE_HEADER BLOCK  ---
 
 class fcrepo {
-  include concat::setup
   if defined(jdk) {
     include jdk
   }
@@ -45,7 +44,7 @@ class fcrepo {
   exec { 'install-fedora':
     command     => "/usr/bin/java -jar /opt/staging/fcrepo/fcrepo-installer.jar ${fcrepo::config::propfile}",
     creates     => "${config::fedora_home}/server",
-    environment => "FEDORA_HOME=${config::fedora_home}",
+    environment => ["FEDORA_HOME=${config::fedora_home}", "CATALINA_HOME=/usr/local/tomcat"],
     timeout     => 1800,
     user        => $config::user,
     group       => $config::group,
