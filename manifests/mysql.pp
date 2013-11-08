@@ -24,9 +24,6 @@ class fcrepo::mysql {
 
   include mysql
 
-  class { 'mysql::server':
-    root_password => 'vagrant_root_pwd'
-  }
   mysql::db { $db_database:
     user     => $db_user,
     password => $db_pass,
