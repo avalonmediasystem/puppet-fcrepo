@@ -20,7 +20,7 @@ class fcrepo {
   if $config::version == 'latest' {
     $download_url = "http://sourceforge.net/projects/fedora-commons/files/latest/download"
   } else {
-    $download_url = "http://downloads.sourceforge.net/fedora-commons/fcrepo-installer-#{version}.jar"
+    $download_url = "http://downloads.sourceforge.net/fedora-commons/fcrepo-installer-${config::version}.jar"
   }
 
   File {
@@ -41,6 +41,10 @@ class fcrepo {
     require => Class['fcrepo::config']
   }
  
+  notify { 'fedora-install':
+    message     => "Installing fedora ${config::version} as ${config::user}",
+    require     => Class['fcrepo::config']
+  }->
   exec { 'install-fedora':
     command     => "/usr/bin/java -jar /opt/staging/fcrepo/fcrepo-installer.jar ${fcrepo::config::propfile}",
     creates     => "${config::fedora_home}/server",
