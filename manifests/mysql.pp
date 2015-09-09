@@ -20,7 +20,7 @@ class fcrepo::mysql {
   $db_user      = $fcrepo_mysql_user
   $db_pass      = $fcrepo_mysql_password
   $db_database  = $fcrepo_mysql_database
-  $jdbc_url     = 'jdbc:mysql://localhost/fedora3?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true'
+  $jdbc_url     = "jdbc:mysql://${db_host}/${db_database}?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true"
 
   include mysql
 
